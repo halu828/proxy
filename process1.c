@@ -9,6 +9,7 @@
 #include <sys/time.h>
 #include <arpa/inet.h>
 #include <errno.h>
+#include <err.h>
 
 #define SIZE 50000
 #define HOSTSIZE 128
@@ -43,7 +44,9 @@ void process1(int browserSocket, char *ipaddress) {
 
 	/* ブラウザからのリクエストを受信 */
 	if ((recvSize = recv(browserSocket, buf, sizeof(buf), 0)) == -1) {
+	#if defined(DEBUG)
 		fprintf(stderr, "ブラウザからの受信に失敗．プロセス終了．\n");
+	#endif
 		close(browserSocket);
 		close(serverSocket);
 		exit(EXIT_SUCCESS);
@@ -121,9 +124,13 @@ void process1(int browserSocket, char *ipaddress) {
 
 		/* ブラウザから受信できるなら */
 		if (FD_ISSET(browserSocket, &rfds)) {
-			fprintf(stdout, "ブラウザから受信．\n");
+		#if defined(DEBUG)
+			printf("ブラウザから受信．\n");
+		#endif
 			if ((recvSize = recv(browserSocket, buf, sizeof(buf), 0)) <= 0) {
+			#if defined(DEBUG)
 				fprintf(stderr, "ブラウザからのrecv()の返り値が0以下．プロセス終了．\n");
+			#endif
 				break; /* 受信に失敗したらbreak */
 			}
 
@@ -154,9 +161,13 @@ void process1(int browserSocket, char *ipaddress) {
 
 		/* サーバから受信できるなら */
 		if (FD_ISSET(serverSocket, &rfds)) {
-			fprintf(stdout, "サーバから受信．\n");
+		#if defined(DEBUG)
+			printf("サーバから受信．\n");
+		#endif
 			if ((recvSize = recv(serverSocket, buf, sizeof(buf), 0)) <= 0) {
+			#if defined(DEBUG)
 				fprintf(stderr, "サーバからのrecv()の返り値が0以下．プロセス終了．\n");
+			#endif
 				break; /* 受信に失敗したらbreak */
 			}
 
@@ -200,7 +211,40 @@ void process1(int browserSocket, char *ipaddress) {
 					fclose(fp);
 				}
 			}*/
-			/* ここでテキストを別なプログラムへ投げて，処理させる？ */
+			/* ここでbufをRubyへ投げて処理させる */
+			if (strcmp(hostName, ipaddress) != 0) {
+				if (strcasestr(buf, "<body") != NULL) {
+					FILE *fp;
+					char tmp[SIZE] = "";
+					char *cmdline = "/usr/bin/ruby popen.rb";
+					if ((fp = (FILE*)fopen("tmphttp.txt","w")) == NULL) {
+						err(EXIT_FAILURE, "%s", "tmphttp.txt");
+					}
+					fprintf(fp, "%s", buf);
+					fclose(fp);
+					memset(buf, '\0', sizeof(buf));
+					if ((fp = popen(cmdline, "r")) == NULL) {
+						err(EXIT_FAILURE, "%s", cmdline);
+					}
+					while (fgets(tmp, SIZE, fp) != NULL) {
+						strcat(buf, tmp);
+					}
+					pclose(fp);
+					/*
+					if ((fp = popen(cmdline, "w+")) == NULL) {
+						err(EXIT_FAILURE, "%s", cmdline);
+					}
+					fprintf(fp, "%s", buf);
+					memset(buf, '\0', sizeof(buf));
+					while (fgets(tmp, SIZE, fp) != NULL) {
+						strcat(buf, tmp);
+					}
+					pclose(fp);
+					*/
+				}
+			}
+			/*printf("%s", buf);*/
+
 
 			#if defined(DEBUG)
 				printf("---------[レスポンス]---------\n%s\n", buf);
@@ -210,12 +254,16 @@ void process1(int browserSocket, char *ipaddress) {
 				fprintf(stderr, "Failed to send!\n");
 				exit(1);
 			}
+		#if defined(DEBUG)
 			printf("[ブラウザへレスポンスを転送]\n");
+		#endif
 		}
 
 	}
 
 	close(serverSocket);
+#if defined(DEBUG)
 	printf("サーバソケットを閉じました．\n");
+#endif
 	exit(EXIT_SUCCESS);
 }

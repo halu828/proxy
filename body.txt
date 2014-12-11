@@ -1,4 +1,3 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>
 function v(arg) {
 	if (window.console) {
@@ -46,7 +45,7 @@ function v(arg) {
 <div id="floatbox">
 	<div class="handle">
 		Recommendations
-		<div class="close"><img src="./images/floatbox_close.png" width="17" height="18" alt="close" /></div>
+		<div class="close"><img src="http://localhost/images/floatbox_close.png" width="17" height="18" alt="close" /></div>
 	</div>
 	<div class="message">
 		<table border="1" cellpadding="5" cellspacing="0">

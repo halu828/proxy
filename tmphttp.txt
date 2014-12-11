@@ -1,0 +1,141 @@
+l="stylesheet" href="css/font/fontsize1.css" type="text/css" media="all" title="changestyle" />
+  <link rel="alternate" type="application/rss+xml" href="http://www.inf.shizuoka.ac.jp/rss2.xml" title="静岡大学 情報学部RSS2.0" />
+
+  <script src="js/jquery.js" type="text/javascript"></script>
+  <script src="js/sui.js?v=1418286341" type="text/javascript"></script>
+</head>
+<body>
+<!-- container start -->
+<div id="container">
+  <!-- header start -->
+  <div id="header" class="clearfix">
+    <div id="logo">
+      <a href="http://www.inf.shizuoka.ac.jp/"><img src="http://www.inf.shizuoka.ac.jp/images/common/header/logo-a.gif" alt="静岡大学 情報学部" /></a>
+    </div>
+    <div id="naviHeadWrap">
+      <div id="naviHead">
+        <ul>
+          <li class="n01"><a href="http://www.inf.shizuoka.ac.jp/en/index.html">ENGLISH</a></li>
+          <li class="n02"><a href="http://www.inf.shizuoka.ac.jp/objects/index.html">サイトマップ</a></li>
+          <li class="n03"><a href="http://www.inf.shizuoka.ac.jp/about/access.html">交通アクセス</a></li>
+          <li class="n04"><a href="http://www.inf.shizuoka.ac.jp/info/inquiry.html">お問合せ</a></li>
+        </ul>
+      </div>
+      <div class="fontsize">
+        <ul>
+        <li><a href="#" rel="css/font/fontsize1.css" id="fontsel1" class="styleswitch fontsize1">小</a></li>
+        <li><a href="#" rel="css/font/fontsize2.css" id="fontsel2" class="styleswitch fontsize2">中</a></li>
+        <li><a href="#" rel="css/font/fontsize3.css" id="fontsel3" class="styleswitch fontsize3">大</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- header end -->
+
+  <!-- objects navigation start -->
+  <div id="tgNavigation" class="clearfix">
+    <div id="naviObjects">
+      <ul>
+        <li class="n01"><a href="http://www.inf.shizuoka.ac.jp/objects/examinee.html">受験生,保護者の方へ</a></li>
+        <li class="n02"><a href="http://www.inf.shizuoka.ac.jp/objects/graduate.html">卒業生の方へ</a></li>
+        <li class="n03"><a href="http://www.inf.shizuoka.ac.jp/objects/society.html">社会人,一般,企業の方へ</a></li>
+      </ul>
+    </div>
+    <div id="searchBox">
+            <form action="http://www.google.com/cse" id="cse-search-box" style="margin:0;padding:0;">
+            <div style="">
+            <input type="text" name="q" size="20" value="" style="margin:0;width:140px;" />
+              <input type="hidden" name="cx" value="008418122266638236939:vlnkr9uvg6o" />
+              <input type="hidden" name="ie" value="UTF-8" />
+              <input type="submit" name="submit" value="検索" class="btnSearch" />
+            </div>
+          </form>
+          <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=ja"></script>
+    </div>
+  </div>
+  <!-- objects navigation end -->
+
+  <!-- global navigation start -->
+  <div id="glNavigation">
+    <ul>
+      <li class="n01_On"><a href="http://www.inf.shizuoka.ac.jp/">ホーム</a></li>
+      <li class="n02"><a href="http://www.inf.shizuoka.ac.jp/about/">情報学部案内</a></li>
+      <li class="n03"><a href="http://www.inf.shizuoka.ac.jp/courses/">学科・カリキュラム</a></li>
+      <li class="n04"><a href="http://www.inf.shizuoka.ac.jp/graduate/">大学院</a></li>
+      <li class="n05"><a href="http://www.inf.shizuoka.ac.jp/admissions/">入試情報</a></li>
+      <li class="n06"><a href="http://www.inf.shizuoka.ac.jp/career/">就職・キャリア</a></li>
+      <li class="n07"><a href="http://www.inf.shizuoka.ac.jp/campuslife/">キャンパスライフ</a></li>
+<!--      <li class="n08"><a href="http://www.inf.shizuoka.ac.jp/about/alliances.html">地域連携推進室</a></li>-->
+    </ul>
+  </div>
+  <!-- global navigation start -->
+  
+  <!-- mainimage strat  -->
+  <div id="mainImg">
+    <img src="http://www.inf.shizuoka.ac.jp/images//p-main.jpg" alt="ページが見つかりませんでした" />
+  </div>
+  <!-- mainimage end  -->
+  
+  <!-- panNavigation strat  -->
+  <div id="pkNavigation">
+    <a href="http://www.inf.shizuoka.ac.jp/">HOME</a>  &raquo; ページが見つかりませんでした  </div>
+  <!-- panNavigation end  -->
+  
+  <!-- wrapper strat  -->
+  <div id="wrapper" class="clearfix">
+    
+<!-- *** content ************************************************  -->
+<div id="content1c">
+  <div id="err404" style="margin:20px;padding:30px 20px;border:1px solid #2565CC;">
+  <h1 style="margin-bottom:20px;font-size:2.2em;line-height:160%;">404 Not Found<br />ウェブサイトリニューアルによりURLが変更になりました.</h1>
+	<p><span class="notice">※</span>5秒後にトップページへ転送されます.</p>
+  <p>http://www.inf.shizuoka.ac.jp/favicon.ico</p>
+  <!-- <p>ご指定のページまたはファイルは他の場所に移動されているか、削除されている可能性があります。</p> -->
+  </div>
+</div>
+
+  </div>
+  <!-- wrapper end  -->
+
+  <!-- extra start  -->
+  <div id="extra">
+    <div id="extraLeft">
+      <ul>
+        <li><a href="http://www.inf.shizuoka.ac.jp/info/privacypolicy.html"><img src="http://www.inf.shizuoka.ac.jp/images/common/navi/extra-navi01.gif" alt="個人情報保護方針" /></a></li>
+        <li><a href="http://www.inf.shizuoka.ac.jp/info/siteinfo.html"><img src="http://www.inf.shizuoka.ac.jp/images/common/navi/extra-navi02.gif" alt="このサイトについて" /></a></li>
+        <li><a href="http://www.inf.shizuoka.ac.jp/info/link.html"><img src="http://www.inf.shizuoka.ac.jp/images/common/navi/extra-navi03.gif" alt="静岡大学関連リンク集" /></a></li>
+      </ul>
+    </div>
+    <div id="extraRight">
+      <a href="#container"><img src="http://www.inf.shizuoka.ac.jp/images/common/btn/pagetop.gif" alt="ページの先頭へ" /></a>
+    </div>
+  </div>
+  <!-- extra end  -->
+
+  <!-- footer start  -->
+  <div id="footer" class="clearfix">
+    <div id="footerLeft">
+      <address>〒432-8011  静岡県浜松市中区城北3-5-1</address>
+    </div>
+    <div id="footerRight">
+    <p>Copyright(C) Shizuoka University. All rights Reserved.</p>
+    </div>
+  </div>
+  <!-- footer end  -->
+
+</div>
+<!-- container end -->
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl."
+ : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/scri"+"pt%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-7070476-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</body>
+</html>

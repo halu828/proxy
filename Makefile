@@ -1,5 +1,5 @@
 CC      = gcc
-CFLAGS  = -pg -c -pedantic -ansi -O -Wall -DDEBUG
+CFLAGS  = -pg -c -pedantic -ansi -O -Wall
 LD      = gcc
 LDFLAGS = -pg -o $(PROGRAM)
 PROGRAM = proxy

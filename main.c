@@ -21,7 +21,9 @@ extern void process1(int browserSocket, char *ipaddress);
 /* 子プロセス終了 */
 void CatchChild(int sig) {
 	int retval, status;
-	fprintf(stderr, "子プロセス終了．\n");
+#if defined(DEBUG)
+	printf("子プロセス終了．\n");
+#endif
 	do {
 		retval = waitpid(-1, &status, WNOHANG); 
 	} while (retval > 0);
@@ -29,7 +31,7 @@ void CatchChild(int sig) {
 
 /* Ctrl+Cの割り込みで行う処理 */
 void SigHandler(int SignalName) {
-	fprintf(stderr, "\nmプロキシを終了します．\n");
+	fprintf(stderr, "\nプロキシを終了します．\n");
 	close(ProxySocket);
 	exit(0);
 }
@@ -142,7 +144,9 @@ int main(int argc, char *argv[]) {
 			}
 			pid = fork(); /* プロセスの作成 */
 			if (pid == 0) {
+			#if defined(DEBUG)
 				printf("子プロセス開始．\n");
+			#endif
 				/* 子プロセス */
 				if(httpNumber == 0) process0(browserSocket);
 				if(httpNumber == 1) process1(browserSocket, ipaddress);
@@ -150,7 +154,9 @@ int main(int argc, char *argv[]) {
 				close(browserSocket);
 			} else { /* アクセプトソケットクローズ */
 				close(browserSocket);
+			#if defined(DEBUG)
 				printf("ブラウザのソケットを閉じました．\n");
+			#endif
 			}
 			/* 親プロセス処理なし */
 		}
