@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0
+ Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript" />
+		<title>劣化コピーの劣化コピー1</title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript">
+$(function(){
+	$("a.open").click(function(){
+		$("#floatWindow").fadeIn("fast");
+		return false;
+	})
+	
+	$("#floatWindow a.close").click(function(){
+		$("#floatWindow").fadeOut("fast");
+		return false;
+	})
+	$("#floatWindow dl dt").mousedown(function(e){
+		
+		$("#floatWindow")
+			.data("clickPointX" , e.pageX - $("#floatWindow").offset().left)
+			.data("clickPointY" , e.pageY - $("#floatWindow").offset().top);
+		
+		$(document).mousemove(function(e){
+			$("#floatWindow").css({
+				top:e.pageY  - $("#floatWindow").data("clickPointY")+"px",
+				left:e.pageX - $("#floatWindow").data("clickPointX")+"px"
+			})
+		})
+		
+	}).mouseup(function(){
+		$(document).unbind("mousemove")
+		
+	})
+})
+		</script>
+		<style type="text/css">
+#floatWindow{
+	display:none;
+	position:absolute;
+	width:500px;
+	height:400px;
+	top:100px;
+	left:100px;
+}
+#floatWindow a.close{
+	position:absolute;
+	right:20px;
+	top:1px;
+}
+#floatWindow a.close img{
+	border:none;
+}
+#floatWindow dl{
+	width:100%;
+	height:100%;
+	background:url("./images/floatWindow.png");
+	margin:0;
+}
+#floatWindow dl dt{
+	height:25px;
+	line-height:25px;
+	text-indent:1em;
+	color:white;
+	font-weight:bold;
+	cursor:move;
+}
+#floatWindow dl dd{
+	margin:0;
+	padding:2em;
+	line-height:1.5;
+	text-indent:1em;
+}
+
+		</style>
+	</head>
+	<body>
+		<h1>劣化コピーの劣化コピー1</h1>
+
+		<a href="#floatWindow" class="open">Search Candidates</a>
+		
+		<div id="floatWindow">
+			<a href="floating.html" class="close"><img src="./images/close.png" alt="閉じる" /></a>
+			<dl>
+				<dt>Search Candidates</dt>
+				<dd>検索候補の表示．おすすめできるかもしれないページの候補．デバッグ用．</dd>
+			</dl>
+		</div>
+
+		<!-- <a href="#floatWindow" class="open">Recommendations</a>
+		
+		<div id="floatWindow">
+			<a href="floating.html" class="close"><img src="./images/close.png" alt="閉じる" /></a>
+			<dl>
+				<dt>Recommendations</dt>
+				<dd>システムが確定した，おすすめできるページを表示．</dd>
+			</dl>
+		</div> -->
+	</body>
+</html>

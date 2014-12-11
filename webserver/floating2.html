@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>劣化コピーの劣化コピー2</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+<body>
+
+
+<script>
+function v(arg) {
+	if (window.console) {
+		console.log(arg);
+	}
+}
+</script>
+
+<h2>劣化コピーの劣化コピー2</h2>
+
+<style>
+#floatbox {
+	/* positionは、fixed でも absolute でもどちらでも用途に応じて設定。
+	fixedであれば、画面をスクロールしても、その場に居座り続ける。
+	absoluteであれば、スクロールと一緒に動く。 */
+    position: absolute;
+
+	/* 最初から表示させる場合は、display: none; はコメントアウトで */
+    display: none;
+    background-color: #F4F9EE;
+    border: 1px solid gray;
+    padding: 0px;
+    width: 400px;
+    top: 0;
+    left: 0;	/* top と left を明示的に示す */
+    z-index: 100000;
+}
+#floatbox .handle {
+    position: relative;
+    background-color: #069;
+    color: white;
+    padding: 10px 5px 10px;
+    cursor: move;
+}
+#floatbox .message {
+    padding: 5px;
+}
+#floatbox .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+</style>
+
+
+<div id="floatbox">
+	<div class="handle">
+		Recommendations
+		<div class="close"><img src="./images/floatbox_close.png" width="17" height="18" alt="close" /></div>
+	</div>
+	<div class="message">
+		<table border="1" cellpadding="5" cellspacing="0">
+			<caption></caption>
+			<tr>
+				<th>Title</th>
+				<th>URL</th>
+				<th>Times</th>
+			</tr>
+			<tr>
+				<td>静岡大学 情報学部</td>
+				<td><a href="http://www.inf.shizuoka.ac.jp">http://www.inf.shizuoka.ac.jp</a></td>
+				<td>??回</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<form>
+	<input type="button" id="showBtn" value="Show Recommendations" />
+</form>
+
+
+
+
+
+
+<script>
+jQuery(function ($) {
+	var leftDiff, topDiff,
+		doc = $(document),
+		floatbox = $("#floatbox"),
+		handle = $("#floatbox .handle");
+
+	// ドラッグ中
+	function moving(event) {
+		floatbox.css("left", (event.pageX - leftDiff) + "px")
+			.css("top", (event.pageY - topDiff) + "px")
+			.css("opacity", 0.7);
+	}
+
+	// ドラッグ終了時
+	function dragEnd() {
+		doc.off("mousemove mouseup");
+		floatbox.css("opacity", 1);
+	}
+
+	// マウスダウン時
+	function mouseDown(event) {
+		leftDiff = event.pageX - floatbox.offset().left;
+		topDiff = event.pageY - floatbox.offset().top;
+		doc.on("mousemove", moving)
+			.on("mouseup", dragEnd);
+	}
+
+	// ハンドル部分に対するイベント設定
+	handle.on("mousedown", mouseDown);
+
+	// フローティングボックス表示
+	$("#showBtn").on("click", function () {
+		floatbox.show();
+	});
+
+	// フローティングボックス非表示
+	$(".close").on("click", function () {
+		floatbox.hide();
+	});
+});
+</script>
+
+
+</body>
+</html>
