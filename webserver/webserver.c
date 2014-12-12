@@ -139,7 +139,7 @@ int main(int argc, char *argv[]) {
 		 * 無事ファイルが開けた場合は200のヘッダと要求されたファイルを送る
 		 */
 		char *header;
-		if ((filefd = open(file, O_RDONLY)) < 0 || strstr(file, "../") != NULL) {
+		if ((filefd = open(file, O_RDONLY)) < 0 || strstr(file, "..") != NULL) {
 			perror("open");
 			fprintf(stderr, "file: %s\n", file);
 			sprintf(file, "%s/404.html", path); /* [カレントディレクトリ]/404.html */

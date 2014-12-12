@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # encoding : utf-8
+
 =begin
 File.open('tmp.txt', "r:utf-8" ) do |f|
 	while line  = f.gets
