@@ -2,4 +2,3 @@ proxy:
   image: proxy
   ports:
     - '10080'
-

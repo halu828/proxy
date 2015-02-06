@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
 	char ipaddress[15];
 
 	if (argc != 4) {
-		fprintf(stderr, "usage: ./proxy [-0][-1] [port] [ipaddress]\n");
+		fprintf(stderr, "usage: ./proxy [-0][-1] [ipaddress] [port]\n");
 		exit(1);
 	}
 
@@ -72,8 +72,8 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	portNumber = atoi(argv[2]);
-	strcpy(ipaddress, argv[3]);
+	strcpy(ipaddress, argv[2]);
+	portNumber = atoi(argv[3]);
 
 	printf("Port Number: %d\n", portNumber);
 	printf("IP address : %s\n", ipaddress);
