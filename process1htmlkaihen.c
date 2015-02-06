@@ -11,9 +11,10 @@
 #include <errno.h>
 #include <err.h>
 
-#define SIZE 32768
+#define SIZE 50000
+#define HOSTSIZE 128
 
-/* 置換する. buf の中の front を behind にする. 成功=1 失敗=0
+/* 置換する. buf の中の front を behind にする．成功=1 失敗=0
  * keep-aliveのヘッダ編集, パケット改変に使用
  */
 int strrep(char *buf, char *front, char *behind) {
@@ -33,16 +34,13 @@ void process1(int browserSocket, char *ipaddress) {
 	struct hostent *ServerInfo;
 	int serverSocket = 0;
 	int maxSock;
-	int recvSize;					/* 受信したサイズを入れておく変数 */
-	char buf[SIZE] = "";	/* リクエストやレスポンスを入れておく変数 */
-	char hostName[128];		/* ホスト名 */
-	char *front;					/* リクエスト編集に使用 */
-	char *behind;					/* リクエスト編集に使用 */
-	fd_set def;						/* 初期値を保持 */
-	fd_set rfds;					/* select()に必要 */
-	char *tp;							/* htmlコード保存に使用 */
-	FILE *fp;							/* htmlコード保存に使用 */
-	int flag = 0;					/* htmlコード保存に使用 */
+	int recvSize; /* 受信したサイズを入れておく変数 */
+	char buf[SIZE] = ""; /* パケットを入れておく配列 */
+	char hostName[HOSTSIZE];
+	char *front;
+	char *behind;
+	fd_set def; /* 初期値を保持 */
+	fd_set rfds; /* select()に必要 */
 
 	/* ブラウザからのリクエストを受信 */
 	if ((recvSize = recv(browserSocket, buf, sizeof(buf), 0)) == -1) {
@@ -105,8 +103,11 @@ void process1(int browserSocket, char *ipaddress) {
 	FD_SET(browserSocket, &def);
 	FD_SET(serverSocket, &def);
 
-	if (browserSocket > serverSocket) maxSock = browserSocket;
-	else maxSock = serverSocket;
+	if (browserSocket > serverSocket) {
+		maxSock = browserSocket;
+	} else {
+		maxSock = serverSocket;
+	}
 
 
 	while(1) {
@@ -170,6 +171,82 @@ void process1(int browserSocket, char *ipaddress) {
 				break; /* 受信に失敗したらbreak */
 			}
 
+			/* HTMLを改変してみる */
+			/*if (strcasestr(buf, "<head>") != NULL){
+				strrep(buf, "<head>", "<head>\n<script type=\"text/javascript\">\n<!--\nfunction disp() {\nif(confirm(\"オススメまとめページへ飛びますか？\")==true){\nlocation.href = \"http://localhost:8001/index.html\";\n}\n}\n-->\n</script>");
+			}
+			if (strcasestr(buf, "<body>") != NULL){
+				strrep(buf, "<body>", "<body>\n<p><input type=\"button\" name=\"link\" value=\"あなたにおすすめのサイト\" onClick=\"disp()\"></p>");
+			}*/
+
+			/* localhostは，WebサーバのIPアドレスであるべき→そうした */
+			/*if (strcmp(hostName, ipaddress) != 0) {
+				if (strcasestr(buf, "<body>") != NULL) {
+					char tmp[512];
+					//sprintf(tmp, "<body>\n<a href=\"http://%s/index.html\">Recommendation</a>", ipaddress);
+					sprintf(tmp, "<body>\n<iframe src=\"http://%s/index.html\" width=\"500\" height=\"300\"></iframe>", ipaddress);
+					strrep(buf, "<body>", tmp);
+				}
+			}*/
+
+			/*if (strcmp(hostName, ipaddress) != 0) {
+				char *tp;
+				if (tp = strcasestr(buf, "<body") != NULL) {
+					strtok();
+					FILE *fp;
+					char *fname = "recommendation.txt";
+					char s[512];
+					char tmp[4096];
+
+					strcat(tmp, "<body>\n");
+					fp = fopen(fname, "r");
+					if(fp == NULL){
+						printf( "%sファイルが開けません\n", fname);
+						exit(1);
+					}
+					while(fgets(s, 512, fp) != NULL){
+						strcat(tmp, s);
+					}
+					strrep(buf, "</html>", tmp);
+					fclose(fp);
+				}
+			}*/
+			/* ここでbufをRubyへ投げて処理させる */
+			if (strcmp(hostName, ipaddress) != 0) {
+				if (strcasestr(buf, "<body") != NULL) {
+					FILE *fp;
+					char tmp[SIZE] = "";
+					char *cmdline = "/usr/bin/ruby proxy_ruby_word2vec.rb";
+					// char *cmdline = "/usr/bin/ruby popen.rb";
+					if ((fp = (FILE*)fopen("tmphttp.txt","w")) == NULL) {
+						err(EXIT_FAILURE, "%s", "tmphttp.txt");
+					}
+					fprintf(fp, "%s", buf);
+					fclose(fp);
+					memset(buf, '\0', sizeof(buf));
+					if ((fp = popen(cmdline, "r")) == NULL) {
+						err(EXIT_FAILURE, "%s", cmdline);
+					}
+					while (fgets(tmp, SIZE, fp) != NULL) {
+						strcat(buf, tmp);
+					}
+					pclose(fp);
+					/*
+					if ((fp = popen(cmdline, "w+")) == NULL) {
+						err(EXIT_FAILURE, "%s", cmdline);
+					}
+					fprintf(fp, "%s", buf);
+					memset(buf, '\0', sizeof(buf));
+					while (fgets(tmp, SIZE, fp) != NULL) {
+						strcat(buf, tmp);
+					}
+					pclose(fp);
+					*/
+				}
+			}
+			printf("%s", buf);
+
+
 			#if defined(DEBUG)
 				printf("---------[レスポンス]---------\n%s\n", buf);
 			#endif
@@ -181,43 +258,6 @@ void process1(int browserSocket, char *ipaddress) {
 		#if defined(DEBUG)
 			printf("[ブラウザへレスポンスを転送]\n");
 		#endif
-
-			/* ここでbufをRubyへ投げて処理させる */
-			// if (strcmp(hostName, ipaddress) != 0) {
-				
-				// if (strcasestr(buf, "Content-Type: text/html") != NULL) {
-				// 	FILE *fp;
-				// 	if ((fp = fopen("html.txt", "a")) == NULL) {
-				// 		err(EXIT_FAILURE, "%s", "html.txt");
-				// 	}
-				// 	if (strcasestr(buf, "<body") != NULL) {
-				// 	while (1) {
-				// 		recvSize = recv(serverSocket, buf, sizeof(buf), 0);
-				// 		send(browserSocket, buf, recvSize, 0);
-				// 		// if (recvSize <= 0) break;
-				// 		// if ((tp = strstr(buf, "\r\n\r\n")) != NULL) fprintf(fp, "%s", tp+1);
-				// 		// else fprintf(fp, "%s", buf);
-				// 		fprintf(fp, "%s", buf);
-				// 		if (strcasestr(buf, "</body") != NULL) break;
-				// 		memset(buf, '\0', sizeof(buf));
-				// 	}
-				// 	}
-				// 	fclose(fp);
-				// }
-
-				/* htmlコードだけをhtml.txtに保存 */
-				if (strcasestr(buf, "Content-Type: text/html") != NULL &&
-					strcasestr(buf, "<body") != NULL) flag = 1;
-				if (flag == 1) {
-					if ((fp = fopen("html.txt", "a")) == NULL) {
-						err(EXIT_FAILURE, "%s", "html.txt");
-					}
-					if ((tp = strstr(buf, "\r\n\r\n")) != NULL) fprintf(fp, "%s", tp+1);
-					else fprintf(fp, "%s", buf);
-					fclose(fp);
-				}
-				if (strcasestr(buf, "</body") != NULL) flag = 0;
-
 		}
 
 	}
